@@ -1,0 +1,19 @@
+---
+
+- name: upgrade system
+  apt: update_cache=yes upgrade=full cache_valid_time=3600
+
+- name: ensure basic packages are installed
+  apt:  name={{item}}
+        state=present
+  with_items:
+    - sudo
+    - htop
+    - iftop
+    - netcat-openbsd
+    - ntp
+    - ranger
+    - vim
+
+- name: Make sure server time is correct
+  service: name=ntp state=restarted enabled=yes
